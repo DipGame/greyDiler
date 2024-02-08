@@ -1,0 +1,55 @@
+$(document).ready(function () {
+  $(".filter__btn").on("click", function () {
+    window.location.href = path(
+      filterData.brandName,
+      filterData.model,
+      filterData.trans,
+      filterData.low,
+      filterData.hight
+    );
+  });
+
+  $(".slider__offer").slick({
+    infinite: false,
+    arrows: false,
+    lazyLoad: 'ondemand',
+    slidesToShow: 4,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          dots: true,
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 779,
+        settings: {
+          dots: true,
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        }
+      },
+      {
+        breakpoint: 531,
+        settings: {
+          dots: true,
+          centerMode: true,
+          centerPadding: '15px',
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        }
+      },
+    ]
+  });
+
+  var stars = "&#9733;".repeat(5); // Повторяем символ звезды 5 раз
+  $(".stars").html(stars);
+
+  var text = $(".reviews__name").html();
+  var words = text.split(" ");
+  var result = words[0].charAt(0).toUpperCase();
+
+  $(".reviews__word").text(result);
+});

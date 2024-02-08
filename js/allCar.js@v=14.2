@@ -1,0 +1,132 @@
+$(document).ready(function () {
+  var formId = "8";
+  var limit = 8;
+  let getStr = window.location.search;
+  if (getStr) {
+    // данные
+    dataUrl = getStr
+      .replace("?", "")
+      .split("&")
+      .reduce(function (p, e) {
+        var a = e.split("=");
+        p[decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+        return p;
+      }, {});
+    if (dataUrl.low) {
+      $(".btn-more").attr("data-low", dataUrl.low);
+      filterData.low = dataUrl.low;
+      $(".filter__low").val(dataUrl.low);
+    }
+    if (dataUrl.hight) {
+      $(".btn-more").attr("data-hight", dataUrl.hight);
+      filterData.hight = dataUrl.hight;
+      $(".filter__hight").val(dataUrl.hight);
+    }
+
+    getCountByFilteredCars(
+      filterData.brand,
+      filterData.model,
+      filterData.trans,
+      filterData.low,
+      filterData.hight
+    )
+      .then((data) => {
+        $(".btn-more").attr("data-count", data);
+        $(".filter__btn").html(`ПОКАЗАТЬ ${data} АВТО`);
+        if (data < 9) {
+          $(".show__btn").addClass("d-none");
+        }
+        (data == 0) ?
+          $(".filter__btn").attr("disabled", "") :
+          $(".filter__btn").removeAttr("disabled");
+      })
+      .then(() => {
+        getlistCarMore(
+          filterData.brand,
+          filterData.model,
+          filterData.trans,
+          filterData.low,
+          filterData.hight,
+          0,
+          limit
+        )
+          .then((data) => {
+            $(".special-box").html("");
+            data.special.forEach((item, i) => {
+              $(".special-box").append(new Special(item).cardCar(formId));
+            });
+          })
+          .then(() => {
+            $("html, body").animate(
+              {
+                scrollTop: Number($(".car__catalog").offset().top - 150),
+              },
+              0
+            );
+          });
+
+        $(".btn-more").attr("data-offset", 8);
+
+        let offset = Number($(".btn-more").attr("data-offset"));
+        let count = Number($(".btn-more").attr("data-count"));
+
+        offset >= count ? $(".btn-more").hide() : $(".btn-more").show();
+      });
+  }
+
+  $(".filter__btn").on("click", function () {
+    $(".btn-more").attr("data-offset", 0);
+    $(".special-box").html("");
+
+    getlistCarMore(
+      filterData.brand,
+      filterData.model,
+      filterData.trans,
+      filterData.low,
+      filterData.hight,
+      0,
+      limit
+    ).then((data) => {
+      data.special.forEach(function (item, i) {
+        $(".special-box").append(new Special(item).cardCar(formId));
+      });
+
+      $(".btn-more").attr("data-offset", 8);
+
+      let offset = Number($(".btn-more").attr("data-offset"));
+      let count = Number($(".btn-more").attr("data-count"));
+
+      offset >= count ? $(".btn-more").hide() : $(".btn-more").show();
+    })
+      .then(() => {
+        $("html, body").animate(
+          {
+            scrollTop: Number($(".car__catalog").offset().top - 150),
+          },
+          0
+        );
+      });
+  });
+
+  $(".btn-more").on("click", function () {
+    getlistCarMore(
+      $(this).attr("data-brand"),
+      $(this).attr("data-model"),
+      $(this).attr("data-trans"),
+      $(this).attr("data-low"),
+      $(this).attr("data-hight"),
+      $(this).attr("data-offset")
+    ).then((data) => {
+      data.special.forEach(function (item, i) {
+        $(".special-box").append(new Special(item).cardCar(formId));
+      });
+
+      let offset = Number($(".btn-more").attr("data-offset")) + 8;
+      let count = Number($(".btn-more").attr("data-count"));
+
+      $(".btn-more").attr("data-offset", offset);
+
+      offset >= count ? $(".btn-more").hide() : $(".btn-more").show();
+    });
+  });
+});

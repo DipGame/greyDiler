@@ -1,0 +1,312 @@
+$(document).ready(function () {
+  window.dataLayer = window.dataLayer || [];
+
+  if ($("#ecommerce__car-view")) {
+    dataLayer.push({
+      ecommerce: {
+        currencyCode: "RUB",
+        detail: {
+          products: [
+            {
+              id: $(".ecom-id").val(),
+              brand: $(".ecom-brand").val(),
+              name: $(".ecom-model").val(),
+              price: $(".ecom-price").val(),
+              quantity: "1",
+            },
+          ],
+        },
+      },
+    });
+  }
+
+  $(".color__bar-item").on("click", function () {
+    $(".model__img img").attr("src", $(this).attr("data-img"));
+    $(".car__name-color").html($(this).attr("data-title"));
+    $(".color__bar-item").removeClass("active");
+    $(this).addClass("active");
+  });
+
+  $(".model__menu-item").on("click", function () {
+    var sectionClass = "." + $(this).attr("data-section");
+
+    $(".model__menu-item").removeClass("active");
+    $(this).addClass("active");
+    // $(".section__form").show();
+
+    $(".section__model-des").removeClass("active");
+    $(sectionClass).addClass("active");
+    // $(".section__form").show();
+  });
+
+  function getlistCarMore(brand, model, low, hight, offset) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        type: "GET",
+        url: "/modules/car/controller/ajax/getMoreCars.php",
+        data: {
+          brand: brand,
+          model: model,
+          low: low,
+          hight: hight,
+          offset: offset,
+        },
+        cache: false,
+        success: function (data) {
+          var respons = JSON.parse(data);
+          resolve(respons);
+        },
+      });
+    });
+  }
+
+  class Special {
+    brand = "";
+    brandId = "";
+    model = "";
+    art = "";
+    mod = "";
+    conf = "";
+    price = "";
+    payment = "";
+    url = "";
+    id = "";
+    modconfId = "";
+
+    constructor(obj) {
+      this.brand = obj.brand.name.toUpperCase();
+      this.brandId = obj.brand.id;
+      this.model = obj.car.model;
+      this.modelId = obj.car.id;
+      this.art = `/static/imgSpc/${obj.id}/${obj.art}?v=${obj.atr.version}`;
+      this.mod = obj.modconf.modification.name;
+      this.conf = obj.modconf.config.name;
+      this.price = Number(obj.diff).toLocaleString("ru");
+      this.payment = Math.trunc(Number(obj.payment)).toLocaleString("ru");
+      this.url = obj.car.urlname;
+      this.id = obj.id;
+      this.modconfId = obj.modconf.id;
+      this.oldPrice = Number(obj.price).toLocaleString("ru");
+    }
+
+    cardCar(formId) {
+      return `
+        <div class="card card__special">
+          <a href="/cars/${this.brand.toLowerCase()}/${this.url}/${this.id}/"
+            class="card__special-img">
+            <h3 data-bs-toggle="tooltip" data-bs-placement="top" title="${this.brand} ${this.model}" class="card__special-name">
+              ${this.brand} ${this.model}
+            </h3>
+            <img src="${this.art}" height="167" width="225"
+              alt="Превью ${this.brand} ${this.model}">
+          </a>
+          <a href="/cars/${this.brand.toLowerCase()}/${this.url}/${this.id}/"
+            class="card__special-top">
+            <p class="card__special-mod">
+              ${this.conf}
+            </p>
+            <p data-bs-toggle="tooltip" data-bs-placement="top" title="${this.mod}" class="card__special-config">
+              ${this.mod}
+            </p>
+            <span class="card__price-main">от
+              ${this.price} руб.
+            </span>
+            <p class="card__price-credit">Кредит от 
+            <span>${this.payment} ₽/мес.</span>
+            </p>
+          </a>
+          <button class="card__btn credit__button" type="button"
+            data-send_form="${formId}"
+            data-brand_id="${this.brandId}"
+            data-brand="${this.brand}"
+            data-model="${this.model}"
+            data-id="${this.modelId}"
+            data-config="${this.modconfId}"
+            data-price="${this.price}"
+            data-foto="${this.art}"
+            data-ecom="${this.ecom}"
+            data-bs-toggle="modal" data-bs-target="#modal--credit">Купить в кредит
+          </button>
+        </div>
+      `;
+    }
+  }
+
+  $(".btn-more").on("click", function () {
+    getlistCarMore(
+      $(this).attr("data-brand"),
+      $(this).attr("data-model"),
+      $(this).attr("data-low"),
+      $(this).attr("data-hight"),
+      $(this).attr("data-offset")
+    ).then((data) => {
+      data.special.forEach(function (item, i) {
+        $(".special-box").append(new Special(item).cardCar("15"));
+      });
+
+      let offset = Number($(".btn-more").attr("data-offset")) + 8;
+      let count = Number($(".btn-more").attr("data-count"));
+
+      $(".btn-more").attr("data-offset", offset);
+
+      if (offset >= count) {
+        $(this).hide();
+      }
+    });
+  });
+
+  // Выбор комплектаци и цвета в Finance форме
+  $(".finance-select--conf").on("change", function () {
+    let idCar = $(".finance-car-id").val();
+    let idConf = $(this).val();
+    let sale = $(".finance-sale").attr("data-val");
+
+    let imgCar = $(this).find("option:selected").attr("data-src");
+    $(".finance-model-img").attr("src", imgCar);
+
+    $.ajax({
+      url: "/modules/car/controller/ajax/getAllInfoByCar.php",
+      method: "post",
+      data: {
+        id: idCar,
+      },
+      success: function (data) {
+        let response = JSON.parse(data);
+        response.modification.forEach((el, i) => {
+          el.prices.forEach((item, i) => {
+            if (idConf == item.id) {
+              let priceOld = Number(sale) + Number(item.price);
+              $(".finance-price-val").html(
+                Number(item.price).toLocaleString("ru")
+              );
+              $(".finance-price-payment").html(
+                Math.round(Number(item.payment)).toLocaleString("ru")
+              );
+            }
+          });
+        });
+      },
+    });
+  });
+
+  // Показать размер скидки
+  $(".sale-item__check").on("change", function () {
+    let progresPercent = Number($(".sale-result__persent").attr("data-val"));
+    let thisPercent = Number($(this).attr("data-percent"));
+    let thisVal = Number($(this).val());
+    let sale = Number($(".sale-result__val").attr("data-val"));
+    let sale_val = Number($(".car__main-price").attr("data-val"));
+    $(this).parents(".sale-item, .offer__block").toggleClass("active");
+
+    if ($(this).is(":checked")) {
+      if ($(".car__main-price").length > 0) {
+        $(".car__main-price")
+          .html((sale_val - thisVal).toLocaleString("ru"))
+          .attr("data-val", sale_val - thisVal)
+      };
+      if ($(".bundle__price").length > 0) {
+        $(".bundle__price").each(function (i, elem) {
+          let bundle_val = Number($(elem).attr("data-val"));
+          $(elem).html((bundle_val - thisVal).toLocaleString("ru"))
+            .attr("data-val", bundle_val - thisVal)
+        });
+      };
+      $(".sale-result__persent")
+        .html(progresPercent + thisPercent)
+        .attr("data-val", progresPercent + thisPercent);
+      $(".sale-result__persent")
+        .parents(".progress-bar")
+        .css("width", progresPercent + thisPercent + "%");
+      $(this).parents(".sale-item").addClass("border-danger");
+      $(this)
+        .parents(".sale-item")
+        .find(".sale-item__val-text")
+        .addClass("text-dark");
+
+      $(".sale-result__val")
+        .html((sale + thisVal).toLocaleString("ru"))
+        .attr("data-val", sale + thisVal);
+
+      $(".conf-item").each(function (i, el) {
+        let price = Number($(el).find(".conf-price").attr("data-val"));
+        let priceNew = price - thisVal;
+        $(el)
+          .find(".conf-price")
+          .html(priceNew.toLocaleString("ru"))
+          .attr("data-val", priceNew);
+        $.ajax({
+          url: "/modules/car/controller/ajax/getMonthPayment.php",
+          method: "post",
+          dataType: "html",
+          data: {
+            price: priceNew,
+            time: 0,
+            first: 10,
+          },
+          success: function (data) {
+            $(el).find(".conf-payment").html(data);
+          },
+        });
+      });
+    } else {
+      if ($(".car__main-price").length > 0) {
+        $(".car__main-price")
+          .html((sale_val + thisVal).toLocaleString("ru"))
+          .attr("data-val", sale_val + thisVal)
+      };
+      if ($(".bundle__price").length > 0) {
+        $(".bundle__price").each(function (i, elem) {
+          let bundle_val = Number($(elem).attr("data-val"));
+          $(elem).html((bundle_val + thisVal).toLocaleString("ru"))
+            .attr("data-val", bundle_val + thisVal)
+        });
+      };
+      $(".sale-result__persent")
+        .html(progresPercent - thisPercent)
+        .attr("data-val", progresPercent - thisPercent);
+      $(".sale-result__persent")
+        .parents(".progress-bar")
+        .css("width", progresPercent - thisPercent + "%");
+      $(this).parents(".sale-item").removeClass("border-danger");
+      $(this)
+        .parents(".sale-item")
+        .find(".sale-item__val-text")
+        .removeClass("text-dark")
+        .addClass("text-secondary");
+
+      $(".sale-result__val")
+        .html((sale - thisVal).toLocaleString("ru"))
+        .attr("data-val", sale - thisVal);
+
+      $(".conf-item").each(function (i, el) {
+        let price = Number($(el).find(".conf-price").attr("data-val"));
+        let priceNew = price + thisVal;
+        $(el)
+          .find(".conf-price")
+          .html(priceNew.toLocaleString("ru"))
+          .attr("data-val", priceNew);
+        $.ajax({
+          url: "/modules/car/controller/ajax/getMonthPayment.php",
+          method: "post",
+          dataType: "html",
+          data: {
+            price: priceNew,
+            time: 0,
+            first: 10,
+          },
+          success: function (data) {
+            $(el).find(".conf-payment").html(data);
+          },
+        });
+      });
+    }
+  });
+
+  // Показать/скрыть комплектации и цены
+  $(".row__btn-name").on("click", function () {
+    $(this).parent()
+      .toggleClass("hide")
+      .siblings()
+      .slideToggle("fast");
+  });
+});

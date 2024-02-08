@@ -1,0 +1,459 @@
+function percentageNumber(price, percent) {
+  let thisPrice = Number(price);
+  let thisPercent = Number(percent);
+  let result = thisPrice * (thisPercent / 100);
+  return Math.ceil(result);
+}
+function dataSale() {
+  var date = new Date(),
+    targetDay = 1,
+    targetDate = new Date(),
+    delta = targetDay - date.getDay();
+  if (delta > 0) {
+    targetDate.setDate(date.getDate() + delta);
+  } else {
+    targetDate.setDate(date.getDate() + 7 + delta);
+  }
+  var targetNumber = targetDate.getDate();
+  var targetMonth = targetDate.getMonth();
+  switch (targetMonth) {
+    case 0:
+      targetMonth = "января";
+      break;
+    case 1:
+      targetMonth = "февраля";
+      break;
+    case 2:
+      targetMonth = "марта";
+      break;
+    case 3:
+      targetMonth = "апреля";
+      break;
+    case 4:
+      targetMonth = "мая";
+      break;
+    case 5:
+      targetMonth = "июня";
+      break;
+    case 6:
+      targetMonth = "июля";
+      break;
+    case 7:
+      targetMonth = "августа";
+      break;
+    case 8:
+      targetMonth = "сентября";
+      break;
+    case 9:
+      targetMonth = "октября";
+      break;
+    case 10:
+      targetMonth = "ноября";
+      break;
+    case 11:
+      targetMonth = "декабря";
+      break;
+  }
+  return targetNumber + " " + targetMonth;
+}
+function getMonthPayment(price, time, first) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "/modules/car/controller/ajax/getMonthPayment.php",
+      method: "post",
+      dataType: "html",
+      data: {
+        price: price,
+        time: time,
+        first: first,
+      },
+      success: function (data) {
+        resolve(data);
+      },
+    });
+  });
+}
+$(document).ready(function () {
+  window.dataLayer = window.dataLayer || [];
+
+  // Burger меню
+  $(".burger").click(function () {
+    $(this).toggleClass("open");
+    $(".header__nav").toggleClass("open");
+    $(".brand__list-mob").hasClass("open")
+      ? $(".brand__list-mob").removeClass("open")
+      : $("body").toggleClass("open");
+  });
+
+  // Cars меню
+  $(".car__menu").click(function () {
+    $(".brand__list-mob").toggleClass("open");
+    $(".burger").removeClass("open");
+    $(".header__nav").hasClass("open")
+      ? $(".header__nav").removeClass("open")
+      : $("body").toggleClass("open");
+  });
+
+  $(".nav__first").click(function () {
+    $(this).find(".nav-item__group-list").toggleClass("open");
+  });
+
+  // При скролле вниз header меняет стиль
+  $(window).on("scroll", function () {
+    $(".header").toggleClass("active", $(this).scrollTop() > 1);
+  });
+
+  // Ленивая загрузка
+  $("img.lazy").Lazy({
+    defaultImage: "/static/img/preloader.gif",
+    scrollDirection: "vertical",
+    effect: "fadeIn",
+    visibleOnly: true,
+    onError: function (element) {
+      console.log("error loading " + element.data("src"));
+    },
+    afterLoad: function (element) {
+      element.removeClass("lazy-preloader");
+      element.show();
+    },
+  });
+
+  // Дата
+  $(".sale-date").html(dataSale());
+
+  // Маска телефона
+  $('input[type="tel"]').inputmask({
+    mask: "+7 (999) 999-9999",
+    clearMaskOnLostFocus: true,
+  });
+
+  // Телефон
+  $('input[type="tel"]').keydown(function (event) {
+    var value =
+      $(this)
+        .val()
+        .replace(/[^\d;]/g, "") + event.key;
+    var error_list = ["7", "8"];
+    if (error_list.indexOf(value) != -1) {
+      return false;
+    }
+  });
+  $('input[type="tel"]').keyup(function (event) {
+    var value = $(this)
+      .val()
+      .replace(/[^\d;]/g, "");
+    var error_list = ["77", "78"];
+    if (error_list.indexOf(value) != -1) {
+      $(this).val("_");
+      $('input[type="tel"]').inputmask({
+        mask: "+7 (999) 999-9999",
+        clearMaskOnLostFocus: true,
+      });
+    }
+  });
+  $('input[type="tel"]').focusout(function () {
+    $(this).attr("placeholder", "Телефон");
+  });
+  // Правильная вставка в input[type="tel"]
+  $("body").on("paste", 'input[type="tel"]', function (e) {
+    event.preventDefault();
+    paste_data = e.originalEvent.clipboardData.getData("text");
+    paste_data = paste_data.replace(/\(/gi, "");
+    paste_data = paste_data.replace(/\)/gi, "");
+    paste_data = paste_data.replace(/\ /gi, "");
+    paste_data = paste_data.replace(/\-/gi, "");
+    paste_data = paste_data.replace(/\+/gi, "");
+    paste_data_string = String(paste_data).length;
+    if (paste_data_string == 10 || paste_data_string == 11) {
+      $(this).val(paste_data);
+    } else {
+      return false;
+    }
+  });
+
+  // Data
+  $(".input-data").inputmask({
+    mask: "99/99/9999",
+    clearMaskOnLostFocus: true,
+    placeholder: "дд/мм/гггг",
+  });
+  $(".input-data").focusout(() => {
+    $(this).attr("placeholder", "Дата рождения");
+  });
+
+  // Радио кнопка политики
+  $(".radio__hidden").click(function () {
+    var btn = $(this).parents("form").find("button");
+    $(this).is(":checked")
+      ? btn.removeAttr("disabled")
+      : btn.attr("disabled", "disabled");
+  });
+
+  // Валидация
+  $(".js-validate").submit(function (e) {
+    var form = $(this);
+    form.find("*[data-validate]").each(function (i, elem) {
+      var value = $(elem).val();
+      var type = $(elem).attr("type");
+      if (
+        !value ||
+        value === undefined ||
+        value === null ||
+        value === "" ||
+        value === "0"
+      ) {
+        $(elem).addClass("is-invalid");
+        setTimeout(
+          function () {
+            $(elem).removeClass("is-invalid");
+          }.bind(elem),
+          2000
+        );
+        e.preventDefault();
+      }
+      if (type == "tel") {
+        let s = $(elem).val().search("_");
+        if ($(elem).val().length < 16 || s != -1) {
+          $(elem).addClass("is-invalid");
+          setTimeout(
+            function () {
+              $(elem).removeClass("is-invalid");
+            }.bind(elem),
+            2000
+          );
+          e.preventDefault();
+        }
+      }
+    });
+  });
+
+  // Открытие модалки credit ---------------
+  $("body").on("click", ".credit__button", function (e) {
+    let m = $(this).attr("data-bs-target");
+    $(m).find('input[name="send_form"]').val($(this).attr("data-send_form"));
+
+    $(".modal__credit").addClass("show");
+    $("body").addClass("open");
+
+    $(".modal-dataLayer--name").html(
+      `${$(this).attr("data-brand")} ${$(this).attr("data-model")}`
+    );
+    $(".modal-dataLayer--price").html($(this).attr("data-price"));
+    $(".modal__foto")
+      .attr("src", $(this).attr("data-foto"))
+      .removeClass("lazy-preloader");
+
+    $(".modal-dataLayer--id").val($(this).attr("data-id"));
+    $(".modal--brand-id").val($(this).attr("data-brand_id"));
+    $(".modal--config-id").val($(this).attr("data-config"));
+    $(".modal--form-id").val($(this).attr("data-form_id"));
+    $(".e__brand").val($(this).attr("data-brand"));
+    $(".e__model").val($(this).attr("data-model"));
+    $(".e__price").val($(this).attr("data-ecom"));
+
+    dataLayer.push({
+      ecommerce: {
+        currencyCode: "RUB",
+        add: {
+          products: [
+            {
+              id: $(this).attr("data-id"),
+              brand: $(this).attr("data-brand"),
+              name: $(this).attr("data-model"),
+              price: $(this).attr("data-ecom"),
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  // Открытие модалки trade-in ---------------
+  $("body").on("click", ".tradein__button", function (e) {
+    let m = $(this).attr("data-bs-target");
+    $(m).find('input[name="send_form"]').val($(this).attr("data-send_form"));
+
+    $(".modal__tradein").addClass("show");
+    $("body").addClass("open");
+
+    $(".modal-dataLayer--id").val($(this).attr("data-id"));
+    $(".modal-dataLayer--name").html(
+      `${$(this).attr("data-brand")} ${$(this).attr("data-model")}`
+    );
+    $(".e__brand").val($(this).attr("data-brand"));
+    $(".e__model").val($(this).attr("data-model"));
+    $(".e__price").val($(this).attr("data-ecom"));
+
+    dataLayer.push({
+      ecommerce: {
+        currencyCode: "RUB",
+        add: {
+          products: [
+            {
+              id: $(this).attr("data-id"),
+              brand: $(this).attr("data-brand"),
+              name: $(this).attr("data-model"),
+              price: $(this).attr("data-ecom"),
+            },
+          ],
+        },
+      },
+    });
+  });
+
+  // Открытие модалки call ---------------
+  $("body").on("click", ".call__button", function () {
+    $(".modal__call").addClass("show");
+    $("body").addClass("open");
+  });
+
+  // Закрытие модалки ---------------
+  $(".modal__close").on("click", (e) => {
+    if ($(e.target).is($(".modal__close"))) {
+      $(".modal").hide().removeClass("show");
+      $("body").removeClass("open");
+
+      dataLayer.push({
+        ecommerce: {
+          currencyCode: "RUB",
+          remove: {
+            products: [
+              {
+                id: $(".modal-dataLayer--id").val(),
+                brand: $(".e__brand").val(),
+                name: $(".e__model").val(),
+                price: $(".e__price").val(),
+              },
+            ],
+          },
+        },
+      });
+    }
+  });
+
+  // Закрытие модалки по клику на пустую область ---------------
+  $(window).on("click", (e) => {
+    if ($(e.target).is($(".modal"))) {
+      $(".modal").removeClass("show");
+      $("body").removeClass("open");
+
+      dataLayer.push({
+        ecommerce: {
+          currencyCode: "RUB",
+          remove: {
+            products: [
+              {
+                id: $(".modal-dataLayer--id").val(),
+                brand: $(".e__brand").val(),
+                name: $(".e__model").val(),
+                price: $(".e__price").val(),
+              },
+            ],
+          },
+        },
+      });
+    }
+  });
+
+  // Закрытие по нажатии на escape ---------------
+  $(document).keyup(function (e) {
+    if (e.which == "27") {
+      $(".modal").removeClass("show");
+      $("body").removeClass("open");
+
+      dataLayer.push({
+        ecommerce: {
+          currencyCode: "RUB",
+          remove: {
+            products: [
+              {
+                id: $(".modal-dataLayer--id").val(),
+                brand: $(".e__brand").val(),
+                name: $(".e__model").val(),
+                price: $(".e__price").val(),
+              },
+            ],
+          },
+        },
+      });
+    }
+  });
+
+  // Показать отзывы
+  if ($(".review__btn")) {
+    $(".review__btn").on("click", function () {
+      $(this).hide();
+      $(".review__section:nth-child(n + 5)").addClass("show");
+    });
+  }
+
+  // Показать/скрыть список услуг (servicesView)
+  if ($(window).width() < 768 && $(".services__block h2")) {
+    $(".services__block h2").on("click", function () {
+      $(this).siblings().slideToggle("fast");
+      $(this).toggleClass("hide");
+    });
+  }
+
+  // стрелка у select
+  if ($("select")) {
+    $("select").on("mouseenter", function () {
+      $(this).siblings().addClass("open");
+    });
+
+    $("select").on("mouseleave", function () {
+      $(this).siblings().removeClass("open");
+    });
+  }
+});
+
+// отключение zoom через скролл (в том числе трекападами в macOS)
+document.addEventListener(
+  "mousewheel",
+  function (e) {
+    if (!e.ctrlKey && !e.metaKey) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  },
+  {
+    passive: false,
+  }
+);
+
+// отключение zoom прикосновениями (в том числе трекападами и т.п.) в Safari и iOS
+document.addEventListener(
+  "gesturestart",
+  function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  },
+  {
+    passive: false,
+  }
+);
+
+let stopScrolling = false;
+
+window.addEventListener("touchmove", handleTouchMove, {
+  passive: false
+});
+
+function handleTouchMove(e) {
+  if (!stopScrolling) {
+    return;
+  }
+  e.preventDefault();
+}
+
+function onTouchStart() {
+  stopScrolling = true;
+}
+
+function onTouchEnd() {
+  stopScrolling = false;
+}
+
+
+$('.brand__img[alt="omoda"]').css('width', '70px');
+$('.brand__img[alt="jaecoo"]').css('width', '70px');

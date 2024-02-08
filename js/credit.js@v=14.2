@@ -1,0 +1,345 @@
+function getModelByBrand(id) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "/modules/car/controller/ajax/getModelByBrand.php",
+      method: "post",
+      dataType: "html",
+      data: { brand: id },
+      success: function (data) {
+        var respons = JSON.parse(data);
+        resolve(respons);
+      },
+    });
+  });
+}
+
+function getAllInfoByCar(id) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "/modules/car/controller/ajax/getAllInfoByCar.php",
+      method: "post",
+      dataType: "html",
+      data: { id: id },
+      success: function (data) {
+        var respons = JSON.parse(data);
+        resolve(respons);
+      },
+    });
+  });
+}
+
+function getMonthPayment(price, time, first) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "/modules/car/controller/ajax/getMonthPayment.php",
+      method: "post",
+      dataType: "html",
+      data: {
+        price: price,
+        time: time,
+        first: first,
+      },
+      success: function (data) {
+        resolve(data);
+      },
+    });
+  });
+}
+
+function getFirst(price) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "/modules/car/controller/ajax/getFirst.php",
+      method: "post",
+      dataType: "html",
+      data: {
+        price: price,
+      },
+      success: function (data) {
+        resolve(data);
+      },
+    });
+  });
+}
+
+function time_month(t) {
+  let i = String(t).split(" ");
+  return "мес." != i[1] ? 12 * Number(i[0]) : Number(i[0]);
+}
+
+$(document).ready(function () {
+  var car = "";
+  var time =
+    $("#select-car--time").length != 0 ? $("#select-car--time").val() : 0;
+  var first =
+    $("#select-car--first").length != 0 ? $("#select-car--first").val() : 0;
+
+  if (
+    $("#select-car--time").length != 0 ||
+    $("#select-car--first").length != 0
+  ) {
+    $("#select-car--first").ionRangeSlider({
+      skin: "round",
+      grid: true,
+      from: 1,
+      disable: true,
+      postfix: " %",
+      values: [0, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80],
+      onStart: function (obj) {
+        // callback, вызывается при запуске и обновлении
+      },
+      onChange: function (obj) {
+        // callback, вызывается при каждом изменении состояния
+
+        first = obj.from_value;
+
+        let conf = $("#select-car--conf")
+          .find("option:selected")
+          .attr("data-confid");
+        let mod = $("#select-car--conf")
+          .find("option:selected")
+          .attr("data-modid");
+        let price = car.modification[mod].prices[conf].price;
+
+        getMonthPayment(price, time_month(time), first).then((data) => {
+          $(".output-payment").html(`от ${data} руб.`);
+        });
+        $(".output-first").html(
+          `${percentageNumber(price, first).toLocaleString("ru")} руб.`
+        );
+      },
+    });
+
+    $("#select-car--time").ionRangeSlider({
+      skin: "round",
+      grid: true,
+      from: 8,
+      disable: true,
+      values: [
+        "6 мес.",
+        "1 год",
+        "2 года",
+        "3 года",
+        "4 года",
+        "5 лет",
+        "6 лет",
+        "7 лет",
+      ],
+      // values: [6, 12, 24, 36, 48, 60, 72, 84],
+      // postfix: " мес",
+      onStart: function (obj) {
+        // callback, вызывается при запуске и обновлении
+      },
+      onChange: function (obj) {
+        // callback, вызывается при каждом изменении состояния
+
+        time = obj.from_value;
+
+        let conf = $("#select-car--conf")
+          .find("option:selected")
+          .attr("data-confid");
+        let mod = $("#select-car--conf")
+          .find("option:selected")
+          .attr("data-modid");
+        let price = car.modification[mod].prices[conf].price;
+
+        getMonthPayment(price, time_month(time), first).then((data) => {
+          $(".output-payment").html(`от ${data} руб.`);
+        });
+        $(".output-time").html(`${time}`);
+      },
+    });
+  }
+
+  $("#select-car--brand").on("change", function () {
+    if (time != 0 || first != 0) {
+      $("#select-car--first").data("ionRangeSlider").update({
+        disable: true,
+      });
+      $("#select-car--time").data("ionRangeSlider").update({
+        disable: true,
+      });
+    }
+
+    $("#select-car--model")
+      .html(new Option("Модель", "0", true, true))
+      .removeAttr("disabled");
+
+    $("#select-car--conf")
+      .attr("disabled", "")
+      .html(
+        `<option value="0" data-modId="0" data-confId="0" >Комплектация</option>`
+      );
+
+    $("#select-car--color")
+      .attr("disabled", "")
+      .html(new Option("Цвет", "0", true, true));
+
+    $(".view__car").hide();
+
+    if ($(this).val() == 0) {
+      $("#select-car--model").attr("disabled", "");
+    } else {
+      getModelByBrand($(this).val()).then((data) => {
+        let listOption = [];
+        data.forEach(function (item, i) {
+          listOption.push(new Option(item.model, item.id, false, false));
+        });
+        $("#select-car--model").append(listOption);
+      });
+    }
+  });
+
+  $("#select-car--model").on("change", function () {
+    if (time != 0 || first != 0) {
+      $("#select-car--first").data("ionRangeSlider").update({
+        disable: true,
+      });
+      $("#select-car--time").data("ionRangeSlider").update({
+        disable: true,
+      });
+    }
+
+    $("#select-car--conf")
+      .html(
+        `<option value="0" data-modId="0" data-confId="0" >Комплектация</option>`
+      )
+      .removeAttr("disabled");
+
+    $("#select-car--color")
+      .html(new Option("Цвет", "0", true, true))
+      .removeAttr("disabled");
+
+    $(".view__car").show();
+
+    if ($(this).val() == 0) {
+      $("#select-car--conf").attr("disabled", "");
+      $("#select-car--color").attr("disabled", "");
+      $(".view__car").hide();
+    } else {
+      if (time != 0 || first != 0) {
+        $("#select-car--first").data("ionRangeSlider").update({
+          disable: false,
+        });
+        $("#select-car--time").data("ionRangeSlider").update({
+          disable: false,
+        });
+      }
+      getAllInfoByCar($(this).val()).then((data) => {
+        car = data;
+
+        $(".output-car-foto").attr("src", car.colors[0].url);
+        $(".output-car-name").html(
+          `${$("#select-car--brand").find("option:selected").html()} ${car.model
+          }`
+        );
+        $(".output-price").html(
+          `от ${car.modification[0].prices[0].price.toLocaleString("ru")} руб.`
+        );
+        $(".output-sale").html(
+          `до ${Number(car.sale).toLocaleString("ru")} руб.`
+        );
+        // Блок справа от картинки
+        $(".output-power").html(
+          `${car.modification[0].power}`
+        );
+        $(".output-mixed").html(
+          `${car.modification[0].mixed}`
+        );
+        $(".output-max").html(
+          `${car.modification[0].max}`
+        );
+        $(".output-acce").html(
+          `${car.modification[0].acce}`
+        );
+
+        let listOptionColor = [];
+        car.colors.forEach(function (item, i) {
+          listOptionColor.push(
+            `<option value="${item.id}" data-src="${item.url}">${item.name}</option>`
+          );
+        });
+        $("#select-car--color").append(listOptionColor);
+
+        let listOptionConf = [];
+        car.modification.forEach(function (item, i) {
+          var strOption = {
+            mod: item.name,
+            conf: "",
+            price: "",
+            modId: i,
+            confId: "",
+            id: "",
+          };
+          item.prices.forEach(function (itemPrices, j) {
+            strOption.conf = itemPrices.config;
+            strOption.price = itemPrices.price;
+            strOption.confId = j;
+            strOption.id = itemPrices.id;
+            listOptionConf.push(
+              `<option value="${strOption.id}" data-modId="${strOption.modId}" data-confId="${strOption.confId}" >${strOption.mod} ${strOption.conf}</option>`
+            );
+          });
+        });
+        $("#select-car--conf").append(listOptionConf);
+
+        getMonthPayment(car.modification[0].prices[0].price, time, first).then(
+          (data) => {
+            $(".output-payment").html(`от ${data} руб.`);
+          }
+        );
+
+        if (first == 0) {
+          getFirst(car.modification[0].prices[0].price).then((data) => {
+            $(".output-first").html(`${data} руб.`);
+          });
+        } else {
+          $(".output-first").html(
+            `${percentageNumber(
+              car.modification[0].prices[0].price,
+              first
+            ).toLocaleString("ru")} руб.`
+          );
+        }
+      });
+    }
+  });
+
+  $("#select-car--conf").on("change", function () {
+    let price = "";
+    var conf = $(this).find("option:selected").attr("data-confid");
+    var mod = $(this).find("option:selected").attr("data-modid");
+    price = car.modification[mod].prices[conf].price;
+
+    $(".output-price").html(`от ${price.toLocaleString("ru")} руб.`);
+
+    getMonthPayment(price, time, first).then((data) => {
+      $(".output-payment").html(`от ${data} руб.`);
+    });
+
+    if (first == 0) {
+      getFirst(price).then((data) => {
+        $(".output-first").html(`${data} руб.`);
+      });
+    } else {
+      $(".output-first").html(
+        `${percentageNumber(price, first).toLocaleString("ru")} руб.`
+      );
+    }
+  });
+
+  $("#select-car--color").on("change", function () {
+    if ($(this).val() == 0) {
+      imgCar = `/static/imgCar/${car.id}/${car.colors[0].url}`;
+    } else {
+      imgCar = $(this).find("option:selected").attr("data-src");
+    }
+    $(".output-car-foto").attr("src", imgCar);
+  });
+
+  $(".credit__btn-next, .credit__btn-back").on("click", function () {
+    let nextSection = $(this).attr("data-next-section");
+    $(".credit-section").hide();
+    $(".credit-section[data-section=" + nextSection + "]").show();
+  });
+});

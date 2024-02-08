@@ -1,0 +1,158 @@
+function getModelByBrand(id) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "/modules/car/controller/ajax/getModelByBrand.php",
+      method: "post",
+      dataType: "html",
+      data: { brand: id },
+      success: function (data) {
+        var respons = JSON.parse(data);
+        resolve(respons);
+      },
+    });
+  });
+}
+
+function getAllInfoByCar(id) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url: "/modules/car/controller/ajax/getAllInfoByCar.php",
+      method: "post",
+      dataType: "html",
+      data: { id: id },
+      success: function (data) {
+        var respons = JSON.parse(data);
+        resolve(respons);
+      },
+    });
+  });
+}
+
+$(document).ready(function () {
+  $("#select-car--brand").on("change", function () {
+    $("#select-car--model")
+      .html(new Option("Модель", "0", true, true))
+      .removeAttr("disabled");
+
+    $("#select-car--conf")
+      .attr("disabled", "")
+      .html(
+        `<option value="0" data-modId="0" data-confId="0" >Комплектация</option>`
+      );
+
+    $("#select-car--color")
+      .attr("disabled", "")
+      .html(new Option("Цвет", "0", true, true));
+
+    $(".view__car").hide();
+
+    if ($(this).val() == 0) {
+      $("#select-car--model").attr("disabled", "");
+    } else {
+      getModelByBrand($(this).val()).then((data) => {
+        let listOption = [];
+        data.forEach(function (item, i) {
+          listOption.push(new Option(item.model, item.id, false, false));
+        });
+        $("#select-car--model").append(listOption);
+      });
+    }
+  });
+
+  $("#select-car--model").on("change", function () {
+    $("#select-car--conf")
+      .html(
+        `<option value="0" data-modId="0" data-confId="0" >Комплектация</option>`
+      )
+      .removeAttr("disabled");
+
+    $("#select-car--color")
+      .html(new Option("Цвет", "0", true, true))
+      .removeAttr("disabled");
+
+    $(".view__car").show();
+
+    if ($(this).val() == 0) {
+      $("#select-car--conf").attr("disabled", "");
+      $("#select-car--color").attr("disabled", "");
+      $(".view__car").hide();
+    } else {
+      getAllInfoByCar($(this).val()).then((data) => {
+        car = data;
+
+        $(".output-car-foto").attr("src", car.colors[0].url);
+        $(".output-car-name").html(
+          `${$("#select-car--brand").find("option:selected").html()} ${car.model
+          }`
+        );
+        $(".output-price").html(
+          `от ${car.modification[0].prices[0].price.toLocaleString("ru")} руб.`
+        );
+        $(".output-sale").html(
+          `от ${Number(car.sale).toLocaleString("ru")} руб.`
+        );
+        // Блок справа от картинки
+        $(".output-power").html(
+          `${car.modification[0].power}`
+        );
+        $(".output-mixed").html(
+          `${car.modification[0].mixed}`
+        );
+        $(".output-max").html(
+          `${car.modification[0].max}`
+        );
+        $(".output-acce").html(
+          `${car.modification[0].acce}`
+        );
+
+        let listOptionColor = [];
+        car.colors.forEach(function (item, i) {
+          listOptionColor.push(
+            `<option value="${item.id}" data-src="${item.url}">${item.name}</option>`
+          );
+        });
+        $("#select-car--color").append(listOptionColor);
+
+        let listOptionConf = [];
+        car.modification.forEach(function (item, i) {
+          var strOption = {
+            mod: item.name,
+            conf: "",
+            price: "",
+            modId: i,
+            confId: "",
+            id: "",
+          };
+          item.prices.forEach(function (itemPrices, j) {
+            strOption.conf = itemPrices.config;
+            strOption.price = itemPrices.price;
+            strOption.confId = j;
+            strOption.id = itemPrices.id;
+            listOptionConf.push(
+              `<option value="${strOption.id}" data-modId="${strOption.modId}" data-confId="${strOption.confId}" >${strOption.mod} ${strOption.conf}</option>`
+            );
+          });
+        });
+        $("#select-car--conf").append(listOptionConf);
+      });
+    }
+  });
+
+  $("#select-car--conf").on("change", function () {
+    let price = "";
+    var conf = $(this).find("option:selected").attr("data-confid");
+    var mod = $(this).find("option:selected").attr("data-modid");
+    price = car.modification[mod].prices[conf].price;
+
+    $(".output-price").html(`от ${price.toLocaleString("ru")} руб.`);
+  });
+
+  $("#select-car--color").on("change", function () {
+    if ($(this).val() == 0) {
+      imgCar = `/static/imgCar/${car.id}/${car.colors[0].url}`;
+    } else {
+      imgCar = $(this).find("option:selected").attr("data-src");
+    }
+    $(".output-car-foto").attr("src", imgCar);
+  });
+});

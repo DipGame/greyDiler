@@ -1,0 +1,444 @@
+.filter__row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.brand__list {
+  width: 100%;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.brand__item {
+  min-width: 120px;
+  height: 100px;
+  background: #fff;
+  -webkit-box-shadow: 10px 10px 10px rgba(237, 237, 238, 0.52), 5px 5px 4px rgba(237, 237, 238, 0.68);
+  box-shadow: 10px 10px 10px rgba(237, 237, 238, 0.52), 5px 5px 4px rgba(237, 237, 238, 0.68);
+  border-radius: 15px;
+}
+
+.brand__item a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 10px;
+}
+
+.brand__img {
+  width: 48px;
+  height: 48px;
+  -o-object-fit: contain;
+  object-fit: contain;
+}
+
+.brand__item p {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.filter {
+  gap: 12px;
+}
+
+.inputs__row {
+  gap: 10px;
+}
+
+.form__section {
+  margin-top: 20px;
+}
+
+.form__section-content {
+  position: relative;
+  background: url(../static/img/dargo.webp) no-repeat left;
+  background-size: contain;
+  width: 100%;
+  height: 400px;
+}
+
+.form__section-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: -webkit-gradient(linear, right top, left top, color-stop(54%, #262626), to(rgba(38, 38, 38, 0)));
+  background: -o-linear-gradient(right, #262626 54%, rgba(38, 38, 38, 0) 100%);
+  background: linear-gradient(270deg, #262626 54%, rgba(38, 38, 38, 0) 100%);
+  border-radius: 25px;
+}
+
+.form__section-content-mob {
+  display: none;
+}
+
+.middle__form {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+  gap: 15px;
+  max-width: 520px;
+  height: 100%;
+  margin-left: auto;
+  margin-right: 100px;
+}
+
+.middle__form-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.middle__form-title b {
+  font-weight: 900;
+  font-size: 78px;
+  line-height: 60px;
+  color: #ffffff;
+}
+
+.middle__form-title span {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 30px;
+  color: #ffffff;
+}
+
+.middle__form-text {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  letter-spacing: -0.075em;
+  color: #ffffff;
+}
+
+.middle__form-input {
+  width: 100%;
+  height: 54px;
+  background: #ffffff;
+  border: 1px solid #eff0f0;
+  border-radius: 6px;
+  padding-left: 20px;
+}
+
+.middle__form-btn {
+  width: 100%;
+  background: var(--secondary-color);
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: #ffffff;
+  padding: 17px;
+}
+
+.middle__form .radio__img {
+  border: 2px solid #fff;
+}
+
+.middle__form .form__check {
+  margin: 0;
+}
+
+.middle__form .form__check-label p {
+  color: #ffffff;
+}
+
+.china__info {
+  background: var(--main-background);
+  -webkit-box-shadow: var(--main-shadow);
+  box-shadow: var(--main-shadow);
+  border-radius: 12px;
+  padding: 20px 30px;
+  margin-bottom: 30px;
+}
+
+.china__info h2 {
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 24px;
+  border-bottom: 2px solid #d9d9d9;
+  padding-bottom: 15px;
+  margin-bottom: 5px;
+}
+
+.china__info h2 span {
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.china__info p {
+  font-size: 18px;
+  line-height: 20px;
+  margin: 15px 0;
+  text-indent: 20px;
+}
+
+.china__info p span {
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+/* ------------------------ @media ------------------------ */
+
+@media screen and (max-width: 1024px) {
+  .brand__list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .form__section-content::before {
+    background: -webkit-gradient(linear, right top, left top, color-stop(50%, #262626), to(rgba(38, 38, 38, 0)));
+    background: -o-linear-gradient(right, #262626 50%, rgba(38, 38, 38, 0) 100%);
+    background: linear-gradient(270deg, #262626 50%, rgba(38, 38, 38, 0) 100%);
+  }
+
+  .middle__form {
+    max-width: 450px;
+    margin-right: 60px;
+  }
+
+  .middle__form-title b {
+    font-size: 68px;
+    line-height: 52px;
+  }
+
+  .middle__form-title span {
+    font-size: 24px;
+    line-height: 26px;
+  }
+}
+
+@media screen and (max-width: 940px) {
+  .brand__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .brand__item {
+    height: auto;
+  }
+
+  .brand__item a {
+    padding: 5px;
+  }
+
+  .form__section {
+    margin-top: 0;
+  }
+
+  .form__section-content {
+    height: 350px;
+  }
+
+  .middle__form {
+    max-width: 370px;
+    margin-right: 20px;
+    gap: 12px;
+  }
+
+  .middle__form-title b {
+    font-size: 54px;
+    line-height: 40px;
+  }
+
+  .middle__form-title span {
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  .middle__form-text {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .middle__form-input {
+    height: 46px;
+  }
+
+  .middle__form-btn {
+    padding: 13px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .china__info {
+    padding: 10px 15px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .brand__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brand__item {
+    min-width: auto;
+  }
+
+  .brand__item a {
+    padding: 5px;
+    gap: 0;
+  }
+
+  .brand__img {
+    width: 35px;
+    height: 35px;
+  }
+
+  .brand__item p {
+    font-size: 14px;
+    line-height: 16px;
+  }
+
+  .form__section-content {
+    height: 300px;
+  }
+
+  .middle__form {
+    max-width: 320px;
+    gap: 10px;
+  }
+
+  .middle__form-title b {
+    font-size: 46px;
+    line-height: 34px;
+  }
+
+  .middle__form-title span {
+    font-size: 16px;
+    line-height: 18px;
+  }
+
+  .middle__form-input {
+    height: 44px;
+  }
+
+  .middle__form-btn {
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .filter__row {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+  }
+
+  .brand__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .filter {
+    max-width: 580px;
+  }
+
+  .form__section-content {
+    background: url(../static/img/dargo.webp) no-repeat 25% 50%;
+    background-size: cover;
+    border-radius: 25px;
+    height: auto;
+    padding: 20px 0;
+  }
+
+  .form__section-content::before {
+    background: -webkit-gradient(linear, right top, left top, color-stop(25%, #262626), to(rgba(38, 38, 38, 0)));
+    background: -o-linear-gradient(right, #262626 25%, rgba(38, 38, 38, 0) 100%);
+    background: linear-gradient(270deg, #262626 25%, rgba(38, 38, 38, 0) 100%);
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .china__info h2 {
+    font-size: 20px;
+    line-height: 22px;
+  }
+
+  .china__info p {
+    font-size: 16px;
+    line-height: 18px;
+    text-indent: 5px;
+  }
+
+  .form__section-content {
+    background: none;
+    padding: 0;
+    max-width: 390px;
+    margin: 0 auto;
+  }
+
+  .form__section-content::before {
+    content: none;
+  }
+
+  .form__section-content-mob {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 150px;
+    border-radius: 12px;
+    background: url(../static/img/dargo-mob.webp) no-repeat center;
+    background-size: cover;
+    z-index: 2;
+  }
+
+  .middle__form {
+    position: relative;
+    background: var(--main-color);
+    border-radius: 12px;
+    padding: 10px;
+    padding-top: 30px;
+    margin-top: -20px;
+    max-width: 100%;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .middle__form-title b {
+    font-size: 36px;
+    line-height: 32px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .brand__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

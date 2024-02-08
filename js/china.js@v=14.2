@@ -1,0 +1,84 @@
+$(document).ready(function () {
+  var formId = "25";
+  var limit = 8;
+
+  $(".filter__btn").on("click", function () {
+    $(".btn-more").attr("data-offset", 0);
+    $(".special-box").html("");
+
+    if ($(".filter__brand").val() == 0) {
+      filterData.brand = "";
+      $(".filter__brand")
+        .find("option")
+        .each(function (i, el) {
+          if ($(el).attr("value") != 0) {
+            if ($(".filter__brand").find("option").length - 1 == i) {
+              filterData.brand += $(el).attr("value");
+            } else {
+              filterData.brand += $(el).attr("value") + ",";
+            }
+          }
+        });
+    }
+
+    getlistCarMore(
+      filterData.brand,
+      filterData.model,
+      filterData.trans,
+      filterData.low,
+      filterData.hight,
+      0,
+      limit
+    ).then((data) => {
+      data.special.forEach(function (item, i) {
+        $(".special-box").append(new Special(item).cardCar(formId));
+      });
+
+      $(".btn-more").attr("data-offset", 8);
+
+      let offset = Number($(".btn-more").attr("data-offset"));
+      let count = Number($(".btn-more").attr("data-count"));
+
+      offset >= count ? $(".btn-more").hide() : $(".btn-more").show();
+    })
+      .then(() => {
+        if ($(window).width() >= 768) {
+          $("html, body").animate(
+            {
+              scrollTop: Number($("#filter--res").offset().top - 150),
+            },
+            0
+          );
+        } else if ($(window).width() < 768) {
+          $("html, body").animate(
+            {
+              scrollTop: Number($("#filter--res").offset().top - 130),
+            },
+            0
+          );
+        }
+      });
+  });
+
+  $(".btn-more").on("click", function () {
+    getlistCarMore(
+      $(this).attr("data-brand"),
+      $(this).attr("data-model"),
+      $(this).attr("data-trans"),
+      $(this).attr("data-low"),
+      $(this).attr("data-hight"),
+      $(this).attr("data-offset")
+    ).then((data) => {
+      data.special.forEach(function (item, i) {
+        $(".special-box").append(new Special(item).cardCar(formId));
+      });
+
+      let offset = Number($(".btn-more").attr("data-offset")) + 8;
+      let count = Number($(".btn-more").attr("data-count"));
+
+      $(".btn-more").attr("data-offset", offset);
+
+      offset >= count ? $(".btn-more").hide() : $(".btn-more").show();
+    });
+  });
+});

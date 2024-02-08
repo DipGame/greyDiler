@@ -1,0 +1,48 @@
+$(document).ready(function () {
+  $('.taxi__check').on('change', function () {
+    let taxi_val = []
+
+    $('.taxi__menu-item').removeClass("active");
+    $(this).parents('.taxi__menu-item').addClass("active");
+    taxi_val.push($(this).val());
+
+    $('*[data-taxi]').each(function (i, elem) {
+      let list_type = $(elem).attr('data-taxi').split(' ')
+      let res = list_type.find((el, i) => {
+        if (taxi_val.includes(el)) {
+          return true
+        }
+        else {
+          return false
+        }
+      })
+      typeof res != 'undefined' ? $(elem).show() : $(elem).hide();
+    })
+
+    if (taxi_val.length == 0) {
+      $('*[data-taxi]').show();
+    }
+  })
+
+  // При загрузке показывать такси с активным data-атрибутом
+  let taxi_val = [];
+  $('.taxi__menu-item').each(function (i, elem) {
+    if ($(elem).hasClass('active')) {
+      taxi_val.push($(elem).find('.taxi__check').val());
+    }
+  });
+  if (taxi_val.length > 0) {
+    $('*[data-taxi]').each(function (i, elem) {
+      let list_type = $(elem).attr('data-taxi').split(' ')
+      let res = list_type.find((el, i) => {
+        if (taxi_val.includes(el)) {
+          return true
+        }
+        else {
+          return false
+        }
+      })
+      typeof res != 'undefined' ? $(elem).show() : $(elem).hide();
+    });
+  }
+})
