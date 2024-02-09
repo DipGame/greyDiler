@@ -1021,6 +1021,9 @@ textarea:focus {
   padding: 14px 40px;
   /* max-width: 500px; */
   width: 50%;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1190px;
 }
 
 .form__title {
@@ -1348,7 +1351,7 @@ textarea:focus {
   /* margin: 15px 0 30px; */
   background: transparent;
   opacity: 0;
-  height: 32px;
+  height: 0;
 }
 
 .offer__block a {
@@ -2342,8 +2345,8 @@ textarea:focus {
   }
 
   .offer__block img {
-    width: 100px;
-    height: 100px;
+    width: 145px;
+    height: 145px;
   }
 
   .footer__politica {
