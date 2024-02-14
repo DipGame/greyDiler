@@ -1,0 +1,755 @@
+<?php define('DOCROOT', $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR); ?>
+<?php include 'content/seo.php'; ?>
+<?php include 'content/cars-list.php'; ?>
+<?php include 'content/disclaimers.php'; ?>
+<?php include 'content/slides.php'; ?>
+<?php include 'content/stock.php'; ?>
+<?php include 'content/promo-list.php'; ?>
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Автостиль – официальный дилер CHERY</title>
+    <link rel="icon" href="favicon.ico">
+    <link href="static/css/responsive.css" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/style.css?v<?= rand() ?>">
+    <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="stylesheet" href="static/css/slick-theme.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+    <script src="static/js/jquery.min.js"></script>
+
+    <!-- Yandex.Metrika counter old -->
+    <!-- <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(56873221, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+    });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/56873221" style="position:absolute; left:-9999px;" alt="" /></div></noscript> -->
+    <!-- /Yandex.Metrika counter -->
+
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript" >
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(66965479, "init", {
+            clickmap:true,
+            trackLinks:true,
+            accurateTrackBounce:true,
+            webvisor:true
+        });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/66965479" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+
+
+    <!-- calltouch -->
+    <script type="text/javascript">
+        (function(w,d,n,c){w.CalltouchDataObject=n;w[n]=function(){w[n]["callbacks"].push(arguments)};if(!w[n]["callbacks"]){w[n]["callbacks"]=[]}w[n]["loaded"]=false;if(typeof c!=="object"){c=[c]}w[n]["counters"]=c;for(var i=0;i<c.length;i+=1){p(c[i])}function p(cId){var a=d.getElementsByTagName("script")[0],s=d.createElement("script"),i=function(){a.parentNode.insertBefore(s,a)},m=typeof Array.prototype.find === 'function',n=m?"init-min.js":"init.js";s.type="text/javascript";s.async=true;s.src="https://mod.calltouch.ru/"+n+"?id="+cId;if(w.opera=="[object Opera]"){d.addEventListener("DOMContentLoaded",i,false)}else{i()}}})(window,document,"ct","dcgm8mqi");
+    </script>
+    <!-- calltouch -->
+
+    <script type="text/javascript"> (function ab(){ var request = new XMLHttpRequest(); request.open('GET', "https://scripts.botfaqtor.ru/one/41534", false); request.send(); if(request.status == 200) eval(request.responseText); })(); </script>
+</head>
+<body>
+<!-- NY worktime -->
+<!-- <div class="ny-label">
+    График работы салона в праздничные дни
+    <button class="ny-label__btn btn btn-white">Подробнее</button>
+    <div class="ny-label__close">✕</div>
+</div>
+
+<div class="ny-worktime modal">
+    <div class="ny-worktime__container">
+        <div class="ny-worktime__close">✕</div>
+
+        <div class="ny-worktime__content">
+            <h3 class="ny-worktime__title">График работы салона в праздничные дни</h3>
+            <p class="ny-worktime__subtitle">
+                Уважаемые клиенты! Информируем вас о режиме работы нашего салона в новогодние праздники:
+
+                <br><br>31 декабря дилерский центр работает до 15:00
+                <br>1 и 2 января выходные дни
+                <br>3 и 4 января рабочие часы с 10:00 до 19:00
+
+                <br><br>С 5 января мы работаем для вас ежедневно, в обычном режиме с 9.00 до 21.00.
+                <br><br><b>С Наступающим Новым 2023 Годом!</b>
+            </p>
+        </div>
+    </div>
+</div> -->
+<!-- NY worktime -->
+<div id="arrow" class="arrow-to-top" onclick="scrollToTop()">
+    <img src="static/img/icons/arrow.svg" alt="arrow">
+</div>
+
+<header class="header">
+    <div class="container header-container in-view" has-animation="">
+        <div class="header__item logo-block" js-popup data-title="Заполнить заявку<br> на обратную связь">
+            <img class="logo-block__brand" src="static/img/logos/logo.png" alt="">
+            <div class="logo-block__dealer">
+                <p>CHERY Автостиль</p>
+                <span>Официальный дилерский центр Chery</span>
+            </div>
+        </div>
+
+        <!-- <div class="header__item phone-block">
+            <a class="link link-header" href="tel:+78126141459">+7 (812) 614-14-59</a>
+        </div> -->
+
+        <div class="header__item callback-block">
+            <button class="btn btn-header" js-popup data-title="Обратный звонок">
+                Обратный звонок
+            </button>
+        </div>
+
+        <div class="header__item header__item--phone" data-href="contacts">
+            <a class="link link-header" href="tel:+78126141439">+7 (812) 614-14-39</a>
+        </div>
+
+        <div class="header__item address-block" data-href="contacts">
+            <div class="address-block-container">
+                <p>Шоссе Революции, 65</p>
+                <p>09.00 – 21.00</p>
+            </div>
+        </div>
+
+<!--        <div class="header__item address-block" data-href="contacts">-->
+<!--            <div class="address-block-container">-->
+<!--                <p>ул. Краснопутиловская, 65</p>-->
+<!--                <p>09.00 – 21.00</p>-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="header__item address-block" data-href="contacts">
+            <div class="address-block-container">
+                <p>ул. Софийская, 2Щ</p>
+                <p>09.00 – 21.00</p>
+            </div>
+        </div>
+
+        <div class="header_burger"></div>
+    </div>
+    <div class="menu-container">
+        <div class="container">
+            <nav class="menu">
+                <ul class="menu-main">
+                    <li class="menu-item" data-href="models"><a class="link link--menu">Модельный ряд</a></li>
+                    <li class="menu-item" data-href="credit"><a class="link link--menu">Кредитные предложения</a></li>
+                    <li class="menu-item" data-href="benefits"><a class="link link--menu">Преимущества</a></li>
+                    <li class="menu-item" data-href="contacts"><a class="link link--menu">Контакты</a></li>
+                </ul>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="main">
+        <div class="main__title">
+            <span>Индивидуальное предложение на CHERY от </span> <span class="main__title_red"><b>руководителя отдела продаж</b></span>
+            <br>Только для <span class="main__large-text red"><b>60</b></span> первых клиентов
+        </div>
+
+        <button class="main__btn btn btn_red" js-popup data-title="Получить предложение">Получить предложение</button>
+
+        <!--            <div class="main__subtitle">-->
+        <!--                Выгоды до 590&nbsp;000&nbsp;₽-->
+        <!--                <span>Доп. оборудование до 300 000 ₽ в подарок</span>-->
+        <!--                <span>Бонус от салона 100 000 ₽</span>-->
+        <!--            </div>-->
+
+        <!-- <ul class="main__advantage-list">
+            <li class="main__advantage">
+                <div class="main__advantage-icon"><img src="static/img/icons/coin.png" alt=""></div>
+                <p class="main__advantage-text">ВыГОДЫ <br> ДО <b>1 116 000</b> РУБ</p>
+            </li>
+            <li class="main__advantage">
+                <div class="main__advantage-icon"><img src="static/img/icons/present.png" alt=""></div>
+                <p class="main__advantage-text">Доп. оборудование <br> на выбор В ПОДАРОК</p>
+            </li>
+            <li class="main__advantage">
+                <div class="main__advantage-icon"><img src="static/img/icons/bonus.png" alt=""></div>
+                <p class="main__advantage-text">БОНУС от салона <br> до <b>400 000</b> РУБ</p>
+            </li>
+        </ul> -->
+
+    </div>
+
+    <div id="special-offer" class="special-offer">
+        <div class="special-offer__container">
+            <div class="special-offer__images left">
+                <img src="static/img/special-offer/1.jpg" alt="photo-1" class="special-offer__image">
+                <img src="static/img/special-offer/2.jpg" alt="photo-2" class="special-offer__image">
+            </div>
+            <div class="special-offer__content">
+                <div class="special-offer__first-line">осталось</div>
+                <div class="special-offer__text-wrapper">
+                    <div class="special-offer__amount">47</div>
+                    <div class="special-offer__col">
+                        <div class="special-offer__text special-offer__text_big">авто</div>
+                        <div class="special-offer__text special-offer__text_small">по предложению</div>
+                    </div>
+                </div>
+                <button class="special-offer__btn btn btn_red" js-popup data-title="Узнать больше">Узнать больше</button>
+
+                
+                <div class="special-offer__images-mobile">
+                    <img src="static/img/special-offer/1.jpg" alt="photo-1" class="special-offer__image">
+                    <img src="static/img/special-offer/2.jpg" alt="photo-2" class="special-offer__image">
+                    <img src="static/img/special-offer/3.jpg" alt="photo-3" class="special-offer__image">
+                </div>
+            </div>
+            <div class="special-offer__images right">
+                <img src="static/img/special-offer/3.jpg" alt="photo-3" class="special-offer__image">
+                <img src="static/img/special-offer/4.jpg" alt="photo-4" class="special-offer__image">
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="info-banner">
+        <form class="form form-banner" novalidate="">
+            <div class="wrap">
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Ваш Телефон" required="">
+                </div> -->
+                <!--                     <div class="form-group">
+                                        <select name="dealer">
+                                            <option selected disabled hidden>Выбрать дилерский центр</option>
+                                            <option value="1">Шоссе Революции, 65</option>
+                                            <option value="2">​​​​​​​Краснопутиловская, 65</option>
+                                        </select>
+                                    </div> -->
+                <!-- <div class="form-group">
+                    <button class="btn btn-banner">
+                        Получить предложение
+                    </button>
+                </div>
+            </div>
+            <div class="footnote">
+                <img class="check-icon" src="static/img/icons/check.png" alt="">
+                <p>Я согласен <a href="static/pdf/agreements.pdf" target="_blank" class="footnote__link">с условиями обработки персональных данных</a>.</p>
+            </div>
+        </form>
+        <div class="timer">
+            <div class="col-12">
+                <p><b>Успейте зафиксировать спецпредложение</b></p>
+            </div>
+            <script>window.timestamp = JSON.parse('<?= json_encode($timestamp) ?>');</script>
+            <script src="static/js/timer.js?v41"></script>
+        </div>
+    </div> -->
+
+    <div class="section section-benefits" id="benefits">
+        <div class="container">
+            <h2 class="section-title">Преимущества</h2>
+            <div class="benefits-list">
+                <div class="benefits-list__item" js-popup data-title="Рассрочка 0% <br> Кредит от 0,01%">
+                    <img src="static/img/icons/benefits/1.svg" alt="">
+                    <p>Рассрочка 0% <br> Кредит от 0,01%</p>
+                </div>
+                <div class="benefits-list__item hide-on-mobile" js-popup data-title="Без первого<br>взноса">
+                    <img src="static/img/icons/benefits/2.svg" alt="">
+                    <p>Без первого<br>взноса</p>
+                </div>
+                <div class="benefits-list__item" js-popup data-title="Кредитный платеж <br>от 8500 ₽/мес.">
+                    <img src="static/img/icons/benefits/7a.svg" alt="">
+                    <p>Кредитный платеж <br>от 8500 ₽/мес.</p>
+                </div>
+                <div class="benefits-list__item" js-popup data-title="Гарантия<br>7 лет">
+                    <img src="static/img/icons/benefits/4.svg" alt="">
+                    <p>Гарантия<br>7 лет</p>
+                </div>
+                <div class="benefits-list__item" js-popup data-title="Доп. оборудование на 200 000 ₽ <br>в подарок">
+                    <img src="static/img/icons/benefits/5.svg" alt="">
+                    <p>Доп. оборудование на 200 000 ₽<br>в подарок
+                        <!--                            <span class="dop-trigger">?</span>-->
+                    </p>
+
+                    <!--                        <div class="dop-popup">-->
+                    <!--                            <div class="dop-popup__body">-->
+                    <!--                                <div class="dop-popup__close">✕</div>-->
+                    <!--                                <div class="dop-popup__title">Доп. оборудование<br> в подарок</div>-->
+                    <!--                                <ul class="dop-popup__list">-->
+                    <!--                                    <li class="dop-popup__item">Городской пакет</li>-->
+                    <!--                                    <li class="dop-popup__item">Доп. оборудование <span>(охранный комплекс, тонировка, керамическая обработка кузова )</span></li>-->
+                    <!--                                    <li class="dop-popup__item">Сигнализация</li>-->
+                    <!--                                    <li class="dop-popup__item">Комплект резины</li>-->
+                    <!--                                    <li class="dop-popup__item">Каско</li>-->
+                    <!--                                </ul>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                </div>
+
+                <div class="benefits-list__item" js-popup data-title="Бонус от салона 200 000 ₽">
+                    <img src="static/img/icons/benefits/6a.svg" alt="">
+                    <p>Скидка от салона <br>200 000 ₽</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section section-model" id="models">
+        <div class="container">
+            <h2 class="section-title">Модельный ряд</h2>
+            <div class="car-list" id="car-list">
+                <?php foreach ($cars as $car) : ?>
+                <div id="<?= $car['dir'] ?>" class="car-list__item-wrapper">
+                    <div class="car-list__item" data-brand="<?= $car['model'] ?>">
+
+                        <div class="left">
+                            <span class="bg-model <?= $car['dir'] ?>"></span>
+                            <p class="car-title"><?= $car['model'] ?> <?= ($car['new'] ? 'New':'') ?></p>
+                            <div class="img-wrap" js-popup data-title="Получить подарки">
+                                <img src="static/img/models/<?= $car['dir'] ?>/<?= $car['image'] ?>" alt="">
+                            </div>
+                            <!-- <div class="bonus__tabs bonus__tabs_mobile">
+                                <div class="bonus__tab bonus__tab_active" data-tab="buy">Покупка</div>
+                                <div class="bonus__tab" data-tab="leasing">Лизинг</div>
+                            </div> -->
+                            <div class="gift-bonus">
+                                <span class="gift-bonus__title" js-popup data-title="Подарки:">Подарки:</span>
+                                <div class="gift-bonus__items">
+                                    <?php foreach ($car['gifts'] as $gift) : ?>
+                                    <div class="gift-bonus__items-item <?php if(isset($gift['hide_mobile']) and !empty($gift['hide_mobile'])) echo 'gift-bonus__items-item_hide-mobile'; ?>">
+                                        <img class="gift-bonus__items-item_icon" src="static/img/models/gifts/<?= $gift['icon'] ?>" alt="bonus icon">
+                                        <span class="gift-bonus__items-item_text"><?= $gift['text'] ?></span>
+                                    </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="car-content">
+                            <div class="car-content__wrap">
+
+                                <!--Кнопка преключения вкладок: Лизинг и Покупка-->
+                                <!--
+                                <div class="bonus__tabs bonus__tabs_desktop">
+                                    <div class="bonus__tab bonus__tab_active" data-tab="buy">Покупка</div>
+                                    <?php if(!empty($car['leasing']) and isset($car['leasing'])): ?>
+                                        <div class="bonus__tab" data-tab="leasing">Лизинг</div>
+                                    <?php endif; ?>
+                                </div>
+                                -->
+
+                                <div class="bonus__title">Бонусы:</div>
+                                <div class="bonus bonus__buy bonus__content bonus__content_active" data-content="buy">
+                                    <p class="bonus__item _1" js-popup data-title="Рассрочка 0%">Рассрочка <br><span class="bold">0%</span></p>
+                                    <p class="bonus__item _2" js-popup data-title="Кредитный платеж">Кредитный <br>платеж от <br><span><span class="bold"><?= $car['payment'] ?></span> ₽/мес</span></p>
+                                    <p class="bonus__item _3" js-popup data-title="Бонус от салона">Бонус от салона <br><span><span class="bold"><?= ($car['dir'] == 'Arrizo8' ? '400 000':'300 000') ?></span> ₽</span></p>
+                                    <p class="bonus__item _4" js-popup data-title="Гарантия">Гарантия <br><span class="bold">7 лет</span></p>
+                                    <p class="bonus__item _5" js-popup data-title="Первый взнос 0 рублей">Взнос <br><span class="bold">0 рублей</span></p>
+                                    <p class="bonus__item _6" js-popup data-title="Выгода при покупке в лизинг">
+                                        <span> Выгода до <span class="accent"><?= $car['leasingPercent'] ?>%</span> </span>
+                                        <span> <span class="bold"><?= $car['leasingSum'] ?></span> ₽** </span>
+                                    </p>
+                                    <!--                                        <p class="bonus__item _6" js-popup data-title="Выгода"><span class="bold">ПТС</span> в наличии </p>-->
+                                    <!--                                        <p class="bonus__item _6" js-popup data-title="Доп.оборудование в подарок">В подарок доп. оборудование на <br><span><span class="bold"><?= ($car['dir'] == 'Arrizo8' ? '300 000':'200 000') ?></span> ₽</span></p>-->
+                                    <!--                                        <p class="bonus__item _5" js-popup data-title="Выгода">Выгода до <br><span><span class="bold"><?= $car['benefit'] ?></span> руб.</span></p>-->
+                                </div>
+
+                                <!-- Вкладка Лизинг -->
+                                <!--
+                                <?php if(!empty($car['leasing']) and isset($car['leasing'])): ?>
+                                    <div class="bonus bonus__leasing bonus__content " data-content="leasing">
+                                        <?php
+                                            foreach($car['leasing'] as $item):
+                                                $title = $item['text'];
+                                                $alt = strip_tags($title);
+                                        ?>
+                                                <span class="bonus__item" js-popup data-title="<?php echo $item['fos_title']; ?>">
+                                                    <img src="<?php echo $item['icon_desktop']; ?>" class="icon_desktop" alt="<?php echo $alt; ?>">
+                                                    <img src="<?php echo $item['icon_mobile']; ?>" class="icon_mobile" alt="<?php echo $alt; ?>">
+                                                    <?php echo $title; ?>
+                                                </span>
+                                        <?php
+                                            endforeach;
+                                        ?>
+                                    </div>
+                                <?php endif; ?>
+                                -->
+
+                                <div class="btn-block">
+                                    <?php if($car['model']): ?>
+                                    <button class="btn btn-model btn-model--01" js-popup data-title="Улучшим любое предложение">
+                                        Улучшим любое предложение
+                                    </button>
+                                    <button class="btn btn-model btn-model--02" js-popup data-title="Закажите выездной тест-драйв!">
+                                        выездной тест-драйв
+                                    </button>
+                                    <button class="btn btn-model btn-model--03 btn-blink" js-popup data-title="Узнать цену">
+                                        Узнать цену
+                                    </button>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php if($car['week']): ?>
+                    <div class="auto-of-week">
+                        Автомобиль года!
+                    </div>
+                    <?php endif; ?>
+                </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+    <div class="section section-promo" id="promo">
+        <div class="swiper-button-prev"></div>
+        <div class="container">
+            <h2 class="section-title">Автомобили по акции</h2>
+            <div class="swiper promo-list">
+                <div class="swiper-wrapper">
+                    <?php foreach ($promo_list as $promo) : ?>
+                    <div class="swiper-slide promo">
+
+                        <div class="promo__img-wrap <?= $promo['dir'] ?>">
+                            <img src="static/img/promo/<?= $promo['dir'] ?>/<?= $promo['image'] ?>">
+                        </div>
+
+                        <div class="promo__content">
+                            <div class="promo__content-model">
+                                <?= $promo['model'] ?>
+                            </div>
+
+                            <!-- <div class="promo__content-price">
+                                Цена от <br>
+                                <span class="promo__content-price_value"><?= $promo['price'] ?></span> руб.
+                            </div> -->
+
+                            <div js-popup class="btn promo__content-button" data-title="Узнать цену по акции">Узнать цену по акции</div>
+                        </div>
+
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-button-next"></div>
+    </div>
+    <div class="section section-credit" id="credit">
+        <div class="container">
+            <div class="credit-block">
+                <div class="credit-block__main">
+                    <div class="credit-block__info">
+                        <h3 class="credit-block__title">CHERY В КРЕДИТ ОТ 0,01%</h3>
+                        <ul class="credit-block__benefits">
+                            <li class="credit-block__benefit">Первый взнос 0%</li>
+                            <li class="credit-block__benefit">Кредитный платеж от 8500 ₽/мес</li>
+                            <li class="credit-block__benefit">Решение через 15 мин.</li>
+                            <li class="credit-block__benefit">Одобрение 95%</li>
+                            <li class="credit-block__benefit">Без поручителей</li>
+                        </ul>
+                    </div>
+                    <div class="credit-block__form">
+                        <p class="credit-block__subtitle">Оставьте заявку на кредит</p>
+                        <form class="form form-credit" novalidate="">
+                            <div class="wrap">
+                                <div class="form-group">
+                                    <input type="tel" name="phone" placeholder="Ваш Телефон" required="">
+                                </div>
+                                <!-- <div class="form-group">
+                                        <select name="dealer">
+                                            <option selected disabled hidden>Выбрать дилерский центр</option>
+                                            <option value="1">Шоссе Революции, 65</option>
+                                            <option value="2">​​​​​​​Краснопутиловская, 65</option>
+                                        </select>
+                                    </div> -->
+                                <div class="form-group">
+                                    <button class="btn btn-credit">
+                                        Получить предложение
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="footnote">
+                                <img class="check-icon" src="static/img/icons/check-white.png" alt="">
+                                <p>Я согласен <a href="static/pdf/agreements.pdf" target="_blank" class="footnote__link">с условиями обработки персональных данных</a>.</p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section section-offer">
+        <div class="container">
+            <div class="offer-block">
+                <h3 class="offer-block__title">УЖЕ ПОЛУЧИЛИ ПРЕДЛОЖЕНИЕ ПО ЦЕНЕ?</h3>
+                <div class="offer-block__subtitle">МЫ ПРЕДЛОЖИМ <br>ЕЩЕ ВЫГОДНЕЕ!</div>
+                <form class="form form-offer" novalidate="">
+                    <div class="wrap">
+                        <div class="form-group">
+                            <input type="tel" name="phone" placeholder="Ваш Телефон" required="">
+                        </div>
+                        <!-- <div class="form-group">
+                                <select name="dealer">
+                                    <option selected disabled hidden>Выбрать дилерский центр</option>
+                                    <option value="1">Шоссе Революции, 65</option>
+                                    <option value="2">​​​​​​​Краснопутиловская, 65</option>
+                                </select>
+                            </div> -->
+                        <div class="form-group">
+                            <button class="btn btn-offer">
+                                ПОЛУЧИТЬ ПРЕДЛОЖЕНИЕ
+                            </button>
+                        </div>
+                    </div>
+                    <div class="footnote">
+                        <img class="check-icon" src="static/img/icons/check-white.png" alt="">
+                        <p>Я согласен <a href="static/pdf/agreements.pdf" target="_blank" class="footnote__link">с условиями обработки персональных данных</a>.</p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="section section-map" id="contacts">
+        <div class="map-block ">
+            <div class="map-cont" id="map"></div>
+        </div>
+        <div class="contacts-block">
+            <h3 class="container-fluid contacts-block__title">
+                CHERY АВТОСТИЛЬ
+            </h3>
+            <div class="container-fluid ">
+                <div class="d-flex justify-content-between flex-wrap g30">
+                    <div class="contacts-block__dealer-info">
+                        <div class="contacts-block__item">
+                            <span>Адрес:</span>
+                            <p>Шоссе Революции, 65</p>
+                        </div>
+                        <div class="contacts-block__item">
+                            <span>Телефон:</span>
+                            <a class="link link-map" href="tel:+78126141439">+7 (812) 614-14-39</a>
+                        </div>
+                        <div class="contacts-block__item">
+                            <span>Время работы:</span>
+                            <p>Ежедневно<br> с 9.00 до 21.00</p>
+                        </div>
+                    </div>
+
+<!--                    <div class="contacts-block__dealer-info">-->
+<!--                        <div class="contacts-block__item">-->
+<!--                            <span>Адрес:</span>-->
+<!--                            <p>​​​​​​​Краснопутиловская, 65</p>-->
+<!--                        </div>-->
+<!--                        <div class="contacts-block__item">-->
+<!--                            <span>Телефон:</span>-->
+<!--                            <a class="link link-map" href="tel:+78126141439">+7 (812) 614-14-39</a>-->
+<!--                        </div>-->
+<!--                        <div class="contacts-block__item">-->
+<!--                            <span>Время работы:</span>-->
+<!--                            <p>Ежедневно<br> с 9.00 до 21.00</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div class="contacts-block__dealer-info">
+                        <div class="contacts-block__item">
+                            <span>Адрес:</span>
+                            <p>​​​​​​Софийская, 2Щ</p>
+                        </div>
+                        <div class="contacts-block__item">
+                            <span>Телефон:</span>
+                            <a class="link link-map" href="tel:+78126141439">+7 (812) 614-14-39</a>
+                        </div>
+                        <div class="contacts-block__item">
+                            <span>Время работы:</span>
+                            <p>Ежедневно<br> с 9.00 до 21.00</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <button class="btn btn-contacts mx-auto" js-popup data-title="Заказать звонок">
+                        Заказать звонок
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</main>
+<footer class="footer">
+    <div class="container">
+        <div class="footer-wrap">
+            <div class="footer__expand">Показать дисклеймер</div>
+            <div class="footer__item block-disc">
+                Описание тарифа CheryDirectBalloonPromo в рамках финансовой программы «CheryFinance»
+
+                <br><br>«CheryDirectBalloonPromo» - это финансовая программа с остаточным платежом в размере до 60% от первоначальной стоимости приобретаемого клиентом автомобиля (размер остаточного платежа зависит от модели и срока кредита).
+
+                <br><br>С целью привлечения потенциальных клиентов к приобретению новых автомобилей CheryTiggo 4, Tiggo 4 Pro, Tiggo 7 Pro, Tiggo 8, Tiggo 8 Pro, Tiggo 8 ProMax в кредит, ПАО «Совкомбанк» в рамках тарифа может предложить Клиентам следующие условия:
+                <br>• Cрок кредита – до 60 мес.
+                <br>• Первоначальный взнос клиента – от 20%.
+                <br>• Остаточный платеж в размере до 60% от первоначальной стоимости приобретаемого автомобиля.
+                <br>• Максимальная процентная ставка по кредиту – 11,15% годовых
+                <br>• Валюта кредита – рубли
+                <br>• Минимальная сумма кредита – 90 000 рублей
+                <br>• Максимальная сумма кредита – 6 900 000 рублей
+                <br>• Оформление по паспорту РФ
+
+                <br><br>Срок действия данного тарифа с 01.01.2023 г. по 31.12.2023 г.
+                <br>Банк вправе изменить условия по тарифному плану в любое время в течение срока действия по своему усмотрению.
+                Тарифы распространяются на новые автомобили
+
+                <br><br>Кредит предоставляет партнер программы Chery Finance ПАО «Совкомбанк», Генеральная лицензия ЦБ РФ №963 от 5 декабря 2014 года. С полными условиями предоставления кредита можно ознакомиться на сайте банка: www.sovcombank.ru
+
+                <br><br>Обязательно оформление полиса КАСКО на весь срок кредита в страховых компаниях, соответствующих требованиям Банка.
+                <br>В данном письме отражены все условия, определяющие полную стоимость кредита и влияющие на сумму расходов/доходов лица в соответствии с Федеральным законом №353-ФЗ «О потребительском кредите (займе)».
+                Также доступны и другие тарифы для новых автомобилей марки Chery Подробности на сайте www.sovcombank.ru.
+
+                <br><br>Не является публичной офертой.
+
+                <br><br>Ежемесячный платеж по автокредиту до 12 000 рублей*
+                <br>*Ежемесячный платеж по кредиту (за исключением последнего платежа) по продукту «АвтоСтиль-Особый» в рамках экспресс-программы кредитования новых автомобилей Chery Tiggo 8 PRO (T1D) (2.0 CVTPrestige) 2022 года выпуска- «CheryDirectPromoBalloon» - с опцией «Остаточный платеж». Расчет произведен исходя из следующих параметров: цена автомобиля – 3 219 900 рублей; размерпервоначального взноса – 1 419 071,40 рублей (48,6% от стоимости автомобиля); срок кредита – 60 месяцев; процентная ставка – 9,15% годовых, остаточный платеж 1 609 950 рублей (50% от вышеуказанной цены автомобиля, оплачивается в последний платеж по кредиту),сумма кредита – 1 500 828,60 рублей. Программой предусмотрено оформление договора страхования автомобиля от рисков хищения (угона), утраты (гибели).
+
+                <br><br>Процентная ставка 9,15% годовых применяется присроке кредита 60 месяцев, первоначальном взносе от 40% от стоимости автомобиля.Минимальный пакет документов, необходимый для получения кредита: паспорт гражданина РФ. Залоговое обеспечение - залог приобретаемого автомобиля. Расчет платежа произведен на 4 октября 2022 года(без применения услуги – «Выбор даты платежа»), является предварительными может отличаться от фактического при изменении параметров/даты предоставления кредита. Кредит предоставляется ПАО «Совкомбанк» (генеральная лицензия Банка России № 963 от 05 декабря 2014 года). Не является публичной офертой.
+
+                <br><br>Ежемесячный платеж по автокредитудо 16 000 рублей*
+                *Ежемесячный платеж по кредиту (за исключением последнего платежа) по продукту «АвтоСтиль-Особый» в рамках экспресс-программы кредитования новых автомобилей Chery Tiggo 8 PRO (T1D) MAX (2.0 TDCTDreamline 4 WD) 2022 года выпуска- «CheryDirectPromoBalloon» - с опцией «Остаточный платеж».Расчет произведен исходя из следующих параметров: цена автомобиля – 3 890 900 рублей; размерпервоначального взноса – 1 890 977,40 рублей (48,6% от стоимости автомобиля); срок кредита – 60 месяцев; процентная ставка – 9,15% годовых, остаточный платеж 1 945 450 рублей (50% от вышеуказанной цены автомобиля, оплачивается в последний платеж по кредиту),сумма кредита – 1 999 922,60 рублей.Программой предусмотрено оформление договора страхования автомобиля от рисков хищения (угона), утраты (гибели).
+
+                <br><br>Процентная ставка 9,15% годовых применяется присроке кредита 60 месяцев, первоначальном взносе от 40% от стоимости автомобиля.Минимальный пакет документов, необходимый для получения кредита: паспорт гражданина РФ. Залоговое обеспечение - залог приобретаемого автомобиля. Расчет платежа произведен на 4 октября 2022 года(без применения услуги – «Выбор даты платежа»), является предварительными может отличаться от фактического при изменении параметров/даты предоставления кредита. Кредит предоставляется ПАО «Совкомбанк» (генеральная лицензия Банка России № 963 от 05 декабря 2014 года). Не является публичной офертой.
+
+                <br><br>Беспроцентная рассрочка с опцией остаточного платежа на приобретение кроссоверов марки CHERY
+
+                <br><br>Марка CHERY совместно c банком-партнёром модернизировали программу «Авторассрочка по карте Халва», добавив опцию остаточного платежа.
+
+                <br><br>Программа авторассрочки с остаточным платежом позволяет клиенту почти в два раза снизить ежемесячный платеж по рассрочке за счёт уплаты фиксированной суммы в конце срока действия рассрочки. Размер остаточного платежа составляет до 30% от стоимости приобретаемого авто.
+
+                <br><br>Директор АО «ЧЕРИ АВТОМОБИЛИ РУС» Владимир Шмаков прокомментировал: «Наша совместная программа разработана с учётом требований настоящего момента и отвечает интересам и предпочтениям наших потенциальных клиентов, что является очень ценным для нас. Она также органично дополняет уже действующие программы поддержки продаж, и каждый клиент сможет найти свой вариант рассрочки, руководствуясь собственными пожеланиями и возможностями!»
+
+                <br><br>Беспроцентную рассрочку на покупку автомобилей CHERY можно оформить на срок до 30 месяцев без уплаты первоначального взноса. Максимальная сумма средств, предоставляемых в рассрочку, составляет 4,9 млн руб. При сроке рассрочки 24 месяца добавляется комиссия в размере одного дополнительного платежа, на сроке 30 месяцев – комиссия в размере двух дополнительных платежей.
+
+                <br><br>В сумму рассрочки, по желанию клиента, можно включить стоимость дополнительного оборудования в размере не более 10% от стоимости авто.
+
+                <br><br>Для сохранения беспроцентной рассрочки необходимо регулярно пользоваться картой «Халва», то есть совершать не менее 5 покупок на общую сумму более 10 тыс. рублей ежемесячно. Транзакции можно делать как за счет собственных, так и заемных средств в рамках предоставленного банком лимита.
+
+                <br><br>Программой также предусмотрено обязательное оформление полиса КАСКО на весь период действия рассрочки. Полис КАСКО можно включить в сумму рассрочки.
+
+                <br><br>«Программа покупки автомобилей в рассрочку с остаточным платежом – абсолютно новый продукт на рынке автомобильного ритейла. Его главное отличие от стандартной авторассрочки заключается в возможности значительно уменьшить ежемесячную финансовую нагрузку. Мы рады предложить этот эксклюзивный продукт клиентам для покупки новых автомобилей», – комментирует управляющий директор Совкомбанка Артем Языков.
+
+                <br><br>Обращаем Ваше внимание на то, что вся представленная на сайте информация, касающаяся комплектаций, технических характеристик, цветовых сочетаний, а также стоимости автомобилей и сервисного обслуживания носит информационный характер и ни при каких условиях не является публичной офертой, определяемой положениями Статьи 437 (2) Гражданского кодекса Российской Федерации. Для получения подробной информации, пожалуйста, обращайтесь в наш салон.
+                <br><br>Предложение действительно до 30.11.2023, подробности на <a href="https://chery.ru" target="_blank" >https://chery.ru</a>. Финансовые услуги оказывает ПАО РОСБАНК, генеральная лицензия №2272 от 28.01.15. Первоначальный взнос от 20%. Срок кредита 36 мес. с пролонгацией до 84 мес. Обязательно оформление опции банка «Назначь свою ставку» стоимостью от 9,5% до 15,5% от суммы кредита. Опция оплачивается единовременно при заключении кредитного договора путем включения в сумму кредита. Отказ от опции не предусмотрен. Не оферта.
+
+                <br><br>** Предложение носит информационный характер, не является публичной офертой. Указанные опции доступны не во всех комплектациях. Количество автомобилей ограничено.
+
+                <br><br>""Уникальная цена"" - по данным у официальных дилеров Chery в Санкт-Петербурге - https://www.chery.ru/ на 30.11.2023.
+
+                <br><br><a href="static/pdf/rules.pdf" target="_blank">Правила пользования сайтом</a>
+                
+                <br><br>ООО «Автостиль»
+                <br>Юридический адрес: 198152, город Санкт-Петербург, Краснопутиловская ул., д. 65 литер а, помещ. 5-н №3
+                <br>ОГРН: 1197847129468
+                <br>ИНН: 7805752165
+                <br><p class="year">© 2023 Все права защищены.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="text-popup" id="base">
+    <div class="text-popup-wrap">
+        <div class="close"></div>
+        <div class="text-popup-content">
+
+        </div>
+        <div>
+            <button class="btn" js-popup>Связаться с нами</button>
+        </div>
+    </div>
+</div>
+
+<div class="popup popup-wrap" id="popup">
+    <div class="popup-container">
+        <div class="popup-close"></div>
+        <h2 class="popup-title">Заказать звонок</h2>
+        <form class="form form--popup" novalidate="">
+            <div class="wrap">
+                <!-- <div class="form-group">
+                    <select name="dealer">
+                        <option selected disabled hidden>Выбрать дилерский центр</option>
+                        <option value="1">Шоссе Революции, 65</option>
+                        <option value="2">​​​​​​​Краснопутиловская, 65</option>
+                    </select>
+                </div>  -->
+                <div class="form-group">
+                    <input type="tel" name="phone" placeholder="Ваш Телефон" required="">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-popup">
+                        Отправить
+                    </button>
+                </div>
+            </div>
+            <div class="footnote">
+                <img class="check-icon" src="static/img/icons/check.png" alt="">
+                <p>Я согласен <a href="static/pdf/agreements.pdf" target="_blank" class="footnote__link">с условиями обработки персональных данных</a>.</p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="success">
+    <div class="form-messages-close"></div>
+    <h3 class="popup-title">Ваша заявка отправлена</h3>
+    <p class="popup-subtitle">Мы свяжемся с Вами в самое ближайшее время.</p>
+    <button class="btn btn--mess">
+        Закрыть окно
+    </button>
+</div>
+
+<div id="error">
+    <div class="form-messages-close"></div>
+    <h3 class="popup-title">Произошла ошибка</h3>
+    <p class="popup-subtitle">Попробуйте повторить отправку позднее</p>
+    <button class="btn btn--mess">
+        Закрыть окно
+    </button>
+</div>
+
+<script>
+    window.addEventListener('scroll', function() {
+        const specialOfferBlock = document.getElementById('special-offer');
+        const arrow = document.getElementById('arrow');
+
+        const specialOfferCoords = specialOfferBlock.getBoundingClientRect();
+        const specialOfferBottom = specialOfferCoords.bottom;
+
+        if (specialOfferBottom <= window.innerHeight) {
+            arrow.style.display = 'block';
+        } else {
+            arrow.style.display = 'none';
+        }
+    });
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    }
+</script>
+
+<script defer src="https://api-maps.yandex.ru/2.1/?lang=ru_RU" type="text/javascript"></script>
+<script type="text/javascript" src="static/js/main.js?v45"></script>
+<script type="text/javascript" src="static/js/jquery.visible.min.js"></script>
+<script src="static/js/jquery.inputmask.min.js" type="text/javascript"></script>
+<script src="static/js/slick.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+</body>
+
+</html>
