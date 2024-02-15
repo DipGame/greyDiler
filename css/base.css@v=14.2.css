@@ -2524,3 +2524,7 @@ textarea:focus {
 .filter__col {
   padding: 0 20px;
 }
+
+a.credit__button {
+  cursor: pointer;
+}
